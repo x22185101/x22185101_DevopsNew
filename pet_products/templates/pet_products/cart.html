@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 20px;
+            padding: 20px;
+            background-color: #d1ffd1;
+        }
+
+        h1 {
+            color: #000; /* Black color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+
+        #orderPlacementMessage {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #orderPlacementMessage p {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <a href="{% url 'pet_products:add_to_cart' item.product.id %}">+</a> |
+                        <a href="{% url 'pet_products:remove_from_cart' item.product.id %}">-</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% url 'pet_products:pet_products' %}">Continue Shopping</a>
+    <a href="#" id="placeOrderLink">Place Order</a>
+    
+    <!-- Order Placement Message Container -->
+    <div id="orderPlacementMessage">
+        <p>Your order is placed! Please collect it within 2 - 24 hours at the store.</p>
+    </div>
+
+    <script>
+        // Function to show the order placement message and redirect to place_order
+        function placeOrder(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            var messageContainer = document.getElementById("orderPlacementMessage");
+            messageContainer.style.display = "block";
+
+            // Redirect to the place_order URL after a short delay (e.g., 2 seconds)
+            setTimeout(function () {
+                window.location.href = "{% url 'pet_products:place_order' %}";
+            }, 2000); // Adjust the delay as needed
+        }
+
+        var placeOrderLink = document.getElementById("placeOrderLink");
+        placeOrderLink.addEventListener("click", placeOrder);
+    </script>
+</body>
+</html>

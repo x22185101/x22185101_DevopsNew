@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 20px;
+            padding: 20px;
+            background-color: #d1ffd1;
+        }
+
+        h1 {
+            color: #000; /* Black color */
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Confirmation</h1>
+    
+    <p>Your order has been successfully placed. Thank you for shopping with us!</p>
+    
+    <p>Please collect your products within 4 hours to 1 day.</p>
+    
+    <p><a href="{% url 'pet_products:pet_products' %}">Continue Shopping</a></p>
+</body>
+</html>

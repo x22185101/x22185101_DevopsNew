@@ -1,0 +1,15 @@
+{% extends "animal_shelter/base_generic.html" %}
+{% block content %}
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<div>
+<button type="submit">Sign In</button>
+</div>
+<p></p>
+<div>
+If you don't have an account yet
+<a href="{% url 'users:sign_up' %}">Sign Up</a>
+</div>
+</form>
+{% endblock content %}

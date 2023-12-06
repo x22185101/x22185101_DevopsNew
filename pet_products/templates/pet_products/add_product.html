@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Pet Product</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 20px;
+            padding: 20px;
+            background-color: #d1ffd1;
+        }
+
+        h1 {
+            color: #000; /* Black color */
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Pet Product</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Product</button>
+    </form>
+    <a href="{% url 'pet_products:add_product' %}">Back to Add Product</a>
+</body>
+</html>

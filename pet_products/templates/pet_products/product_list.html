@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Products</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 20px;
+            padding: 20px;
+            background-color: #d1ffd1;
+        }
+
+        h1 {
+            color: #000; /* Black color */
+        }
+
+        h2 {
+            color: #000; /* Black color */
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pet Products</h1>
+    <ul>
+        {% for product in products %}
+        <li>
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+            <a href="{% url 'pet_products:add_to_cart' product.id %}">Add to Cart</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

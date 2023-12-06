@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animal Shelter Details</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #d1ffd1;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #000; /* Black color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2>{{ animal_shelter.animal_type }} Details</h2>
+
+    <table>
+        <thead></thead>
+        <tbody>
+            <tr>
+                <td><b>Breed:</b></td>
+                <td>{{ animal_shelter.breed }}</td>
+            </tr>
+            <tr>
+                <td><b>Age:</b></td>
+                <td>{{ animal_shelter.date_of_birth|date:"F j, Y" }}</td>
+            </tr>
+            <tr>
+                <td><b>Allergies if any:</b></td>
+                <td>{{ animal_shelter.allergies }}</td>
+            </tr>
+            <tr>
+                <td><b>Weight (lbs):</b></td>
+                <td>{{ animal_shelter.weight }}</td>
+            </tr>
+            <tr>
+                <td><b>Name:</b></td>
+                <td>{{ animal_shelter.name }}</td>
+            </tr>
+            <tr>
+                <td><b>Favorite Food:</b></td>
+                <td>{{ animal_shelter.favorite_food }}</td>
+            </tr>
+            <tr>
+                <td><b>Abandonment Reason:</b></td>
+                <td>{{ animal_shelter.abandonment_reason }}</td>
+            </tr>
+            <tr>
+                <td><b>About Me:</b></td>
+                <td>{{ animal_shelter.about_me }}</td>
+            </tr>
+            <tr>
+                <td><b>Picture of the Pet:</b></td>
+                <td><img src="{{ animal_shelter.picture.url }}" alt="Pet Picture" width="200"></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'animal_shelter:user_update_animal' animal_shelter.pk %}">Update Details</a></li>
+                    {% else %}
+                    Please <a href="{% url 'sign_in' %}">Sign In</a> to Update details.
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'animal_shelter:user_delete_animal' animal_shelter.pk %}">Delete Adoption</a></li>
+                    {% else %}
+                    Please <a href="{% url 'sign_in' %}">Sign In</a> to Delete Adoption.
+                    {% endif %}
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h1>To Give Me a Forever Loving Home, Click the Below Link</h1>
+    <a href="{% url 'animal_shelter:adopt' %}">Adopt Me</a>
+
+</body>
+</html>

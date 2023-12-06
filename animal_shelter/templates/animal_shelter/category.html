@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animal Shelter Category</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #d1ffd1;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #000; /* Black color */
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin: 0 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Available Animals in Category: {{ category }}</h1>
+
+    <p>Number of {{ category }}s available for adoption: {{ animal_count }}</p>
+
+    {% if animals_in_category %}
+    <ul>
+        {% for animal in animals_in_category %}
+        <li><a href="{% url 'animal_shelter:show' animal.id %}">{{ animal.animal_type }} - {{ animal.breed }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>There are no {{ category }}s recorded.</p>
+    {% endif %}
+
+</body>
+</html>

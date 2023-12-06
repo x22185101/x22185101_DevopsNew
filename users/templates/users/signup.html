@@ -1,0 +1,11 @@
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<div>
+<button type="submit">Sign Up</button>
+</div>
+<p></p>
+<div>
+If you have an account <a href="{% url 'sign_in' %}">Sign In</a>
+</div>
+</form>

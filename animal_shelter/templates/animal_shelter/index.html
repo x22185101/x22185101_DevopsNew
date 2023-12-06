@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animal Rescue and Adoption</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "background.jpg" %}');
+            background-size: 40% 60%;
+            background-repeat: no-repeat;
+            background-color: #d1ffd1;
+            background-position: center bottom;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .header h1 {
+            margin: 0; /* Remove default margin */
+        }
+
+        .right-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #000; /* Black color */
+        }
+
+        .center-heading {
+            text-align: center; /* Center text horizontally */
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Center the items vertically */
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin: 0 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .cta-button:hover {
+            background-color: #45a049;
+        }
+
+        .content-container {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="right-links">
+            {% if user.is_authenticated %}
+                Hi {{ user.username }}! | <a href="{% url 'sign_out' %}" style="color: #fff;">Sign Out</a>
+            {% else %}
+                <a href="{% url 'users:sign_up' %}" style="color: #fff;">Sign Up</a> |
+                If you already have an account <a href="{% url 'sign_in' %}" style="color: #fff;">Sign In</a>
+            {% endif %}
+        </div>
+        <h1 class="center-heading">Pawardise Animal Shelter and Adoption Center</h1>
+    </div>
+
+    <div class="content-container">
+        <h2 class="center-heading">List of animals up for adoption</h2>
+        {% if list_of_animals %}
+            <ul>
+                <li><a href="{% url 'animal_shelter:category' 'Cat' %}">Cats</a></li>
+                <li><a href="{% url 'animal_shelter:category' 'Dog' %}">Dogs</a></li>
+                <li><a href="{% url 'animal_shelter:category' 'Bird' %}">Birds</a></li>
+                <li><a href="{% url 'animal_shelter:category' 'Reptile' %}">Reptiles</a></li>
+                <li><a href="{% url 'animal_shelter:category' 'Rodent' %}">Rodents</a></li>
+                <li><a href="{% url 'animal_shelter:category' 'Other' %}">Others</a></li>
+            </ul>
+        {% else %}
+            <p>There are no animals recorded.</p>
+        {% endif %}
+
+        <h2>Read our Adoption Policy</h2>
+        <a href="{% url 'animal_shelter:adoption_policy' %}" class="cta-button">Read Me</a>
+
+        <h2>Our Pet Products</h2>
+        <a href="{% url 'pet_products:pet_products' %}" class="cta-button">Take me to the page</a>
+
+        <h2>To Surrender Your Pet</h2>
+        {% if user.is_authenticated %}
+            <p>Please enter the details of the pet using the below link.</p>
+            <a href="{% url 'animal_shelter:user_create_animal' %}" class="cta-button">I want to Surrender my Pet</a>
+        {% else %}
+            <p>Please <a href="{% url 'sign_in' %}" style="color: #4CAF50; font-weight: bold;">Sign In</a> to enter the details.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
