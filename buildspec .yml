@@ -1,0 +1,36 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      java: corretto17        
+      python: 3.11
+    commands:
+      - pip install --upgrade pip
+      # Install dependencies needed for running the static analysis
+      - java --version
+      - pip install -r $CODEBUILD_SRC_DIR/requirements.txt pylint
+      - yum update
+      - yum install -y jq
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+      - unzip ./sonar-scanner-cli-4.7.0.2747-linux.zip
+      - export PATH=$PATH:$PWD/sonar-scanner-4.7.0.2747-linux/bin/
+      - python --version
+  pre_build:
+    commands:
+      #- pylint $CODEBUILD_SRC_DIR/*.py
+      #- pylint $CODEBUILD_SRC_DIR/*/*.py
+      - sonar-scanner -Dsonar.organization=x22185101 -Dsonar.projectKey=x22185101_x22185101_DevopsNew -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=7aa9810180a855c907e9dee6bcf0d024ed0c66c6
+      - sleep 5
+      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=x22185101_x22185101_DevopsNew > analysis.json
+      - cat analysis.json
+  build:
+    commands:
+      - if [[ $(jq -r '.projectStatus.status' analysis.json) = "ERROR" ]] ; then CODEBUILD_BUILD_SUCCEEDING=0; fi
+artifacts:
+  files:
+    - '**/*'
+eb_codebuild_settings:
+  aws_beanstalk_application:
+    name: "x22185101-cdos-app"
+  aws_beanstalk_environment:
+    name: "x22185101-cdos-app-env"
