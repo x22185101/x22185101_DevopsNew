@@ -99,12 +99,12 @@
             <tr>
                 <td colspan="2">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'animal_shelter:user_update_animal' animal_shelter.pk %}">Update Details</a></li>
+                    <li><a href="{% url 'animal_shelter:user_update_animal' animal_shelter.pk %}" class="button">Update Details</a></li>
                     {% else %}
                     Please <a href="{% url 'sign_in' %}">Sign In</a> to Update details.
                     {% endif %}
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'animal_shelter:user_delete_animal' animal_shelter.pk %}">Delete Adoption</a></li>
+                    <li><a href="{% url 'animal_shelter:user_delete_animal' animal_shelter.pk %}" class="button">Delete Adoption</a></li>
                     {% else %}
                     Please <a href="{% url 'sign_in' %}">Sign In</a> to Delete Adoption.
                     {% endif %}
@@ -115,7 +115,7 @@
     </table>
 
     <h1>To Give Me a Forever Loving Home, Click the Below Link</h1>
-    <a href="{% url 'animal_shelter:adopt' %}">Adopt Me</a>
+    <a href="{% url 'animal_shelter:adopt' %}" class="button">Adopt Me</a>
 
 </body>
 </html>

@@ -1,23 +1,68 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #d1ffd1;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .topnav {
+            overflow: hidden;
+        }
+
+        .topnav a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .topnav a:hover {
+            background-color: #45a049;
+            color: #fff;
+        }
+
+        main {
+            margin: 20px;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-<header>
-<div class="topnav">
-<a class="active" href="/">Home</a> |
-{% if user.is_authenticated %}
-<div> You are signed in as {{user.username}}...
-<a href="{% url 'sign_out' %}">Sign out</a>
-{% else %}
-<a href="{% url 'sign_in' %}">Sign in</a> |
-<a href="{% url 'users:sign_up' %}">Sign up</a>
-{% endif %}
-</div>
-</header>
-<main>
-{% block content %}{% endblock %}
-</main>
+    <header>
+        <div class="topnav">
+            <a class="active" href="/">Home</a>
+            {% if user.is_authenticated %}
+                <div>You are signed in as {{ user.username }}...
+                    <a href="{% url 'sign_out' %}">Sign out</a>
+                </div>
+            {% else %}
+                <a href="{% url 'sign_in' %}">Sign in</a> |
+                <a href="{% url 'users:sign_up' %}">Sign up</a>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 </body>
 </html>
