@@ -1,15 +1,18 @@
 {% extends "animal_shelter/base_generic.html" %}
+
 {% block content %}
-<form method="POST">
-{% csrf_token %}
-{{ form.as_p }}
-<div>
-<button type="submit">Sign In</button>
-</div>
-<p></p>
-<div>
-If you don't have an account yet
-<a href="{% url 'users:sign_up' %}">Sign Up</a>
-</div>
-</form>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div>
+            <button type="submit" style="background-color: #4CAF50; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease-in-out;">Sign In</button>
+        </div>
+
+        <p></p>
+
+        <div>
+            If you don't have an account yet <a href="{% url 'users:sign_up' %}" style="color: #4CAF50; font-weight: bold;">Sign Up</a>
+        </div>
+    </form>
 {% endblock content %}
