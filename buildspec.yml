@@ -6,7 +6,6 @@ phases:
       python: 3.11
     commands:
       - pip install --upgrade pip
-      # Install dependencies needed for running the static analysis
       - java --version
       - pip install -r $CODEBUILD_SRC_DIR/requirements.txt pylint
       - yum update

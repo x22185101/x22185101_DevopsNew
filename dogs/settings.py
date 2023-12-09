@@ -28,7 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1','94bc11ea8c8f4c19876d6d08debe454c.vfs.cloud9.eu-west-1.amazonaws.com', 'x22185101-cdos-app-env.eba-phserbpr.eu-west-2.elasticbeanstalk.com']
 
 
-# Application definition
 
 INSTALLED_APPS = [
     'animal_shelter.apps.AnimalShelterConfig',

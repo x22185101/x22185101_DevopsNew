@@ -17,7 +17,7 @@ urlpatterns = [
     
     path('adopt/', views.adopt, name='adopt'),
     path('adoption-policy/', views.adoption_policy, name='adoption_policy'),
-    path('products/', views.product_list, name='product_list'),
+    #path('products/', views.product_list, name='product_list'),
     path('create_animal/', views.user_create_animal, name='user_create_animal'),
     path('update_animal/<int:animal_shelter_id>/', views.user_update_animal, name='user_update_animal'),
     path('delete_animal/<int:animal_shelter_id>/', views.user_delete_animal, name='user_delete_animal'),
