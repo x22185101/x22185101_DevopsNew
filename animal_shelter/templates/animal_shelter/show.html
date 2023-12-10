@@ -99,12 +99,16 @@
             <tr>
                 <td colspan="2">
                     {% if user.is_authenticated %}
+                    <ul>
                     <li><a href="{% url 'animal_shelter:user_update_animal' animal_shelter.pk %}" class="button">Update Details</a></li>
+                    </ul>
                     {% else %}
                     Please <a href="{% url 'sign_in' %}">Sign In</a> to Update details.
                     {% endif %}
                     {% if user.is_authenticated %}
+                    <ul>
                     <li><a href="{% url 'animal_shelter:user_delete_animal' animal_shelter.pk %}" class="button">Delete Adoption</a></li>
+                    </ul>
                     {% else %}
                     Please <a href="{% url 'sign_in' %}">Sign In</a> to Delete Adoption.
                     {% endif %}
