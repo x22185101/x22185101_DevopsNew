@@ -16,8 +16,8 @@ phases:
       - python --version
   pre_build:
     commands:
-      #- pylint $CODEBUILD_SRC_DIR/*.py
-      #- pylint $CODEBUILD_SRC_DIR/*/*.py
+      - pylint $CODEBUILD_SRC_DIR/*.py
+      - pylint $CODEBUILD_SRC_DIR/*/*.py
       - sonar-scanner -Dsonar.organization=x22185101 -Dsonar.projectKey=x22185101_x22185101_DevopsNew -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2f9f146c10042328ff1526d7d50adb3d42c8bf87
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=x22185101_x22185101_DevopsNew > analysis.json
