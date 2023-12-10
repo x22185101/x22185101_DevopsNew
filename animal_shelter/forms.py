@@ -4,7 +4,7 @@ from .models import AnimalShelter, Adopter
 class AnimalShelterForm(forms.ModelForm):
     class Meta:
         model = AnimalShelter
-        fields = '__all__'
+        fields = ['animal_type', 'breed','date_of_birth','allergies', 'weight', 'name', 'favorite_food', 'abandonment_reason','about_me','picture']
 
     animal_type = forms.ChoiceField(
         choices=AnimalShelter.ANIMAL_TYPE_CHOICES,
@@ -16,6 +16,6 @@ class AnimalShelterForm(forms.ModelForm):
 class AdopterForm(forms.ModelForm):
     class Meta:
         model = Adopter
-        fields = '__all__'
+        fields = ['name', 'address','contact_number','email', 'visit_date', 'acknowledgment']
 
     
