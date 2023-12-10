@@ -6,8 +6,6 @@ from .models import AnimalShelter
 from .forms import AdopterForm
 from .models import Adopter
 from .models import AdoptionPolicy
-# from .models import Product
-# from .models import CartItem
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -76,16 +74,6 @@ def adoption_policy(request):
     }
 
     return render(request, 'animal_shelter/adoption_policy.html', context)
-    
-# def product_list(request):
-    
-#     products = Product.objects.all()  
-
-#     context = {
-#         'products': products,
-#     }
-
-#     return render(request, 'animal_shelter/product_list.html', context)
 @login_required   
 def user_create_animal(request):
     if request.method == 'POST':
