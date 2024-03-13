@@ -13,7 +13,7 @@
         }
 
         h1 {
-            color: #000; /* Black color */
+            color: #000; 
         }
 
         table {
@@ -43,7 +43,7 @@
             color: #45a049;
         }
 
-        /* Add the styles for the buttons */
+       
         .button {
             display: inline-block;
             padding: 10px 20px;
@@ -106,11 +106,11 @@
         </tbody>
     </table>
     
-    <!-- Use the button class for styling -->
+    
     <a href="{% url 'pet_products:pet_products' %}" class="button continue-shopping">Continue Shopping</a>
     <a href="#" id="placeOrderLink" class="button place-order">Place Order</a>
     
-    <!-- Order Placement Message Container -->
+    
     <div id="orderPlacementMessage">
         <p>Your order is placed! Please collect it within 4 - 24 hours at the store.</p>
     </div>
@@ -125,7 +125,7 @@
             // Redirect to the place_order URL after a short delay (e.g., 2 seconds)
             setTimeout(function () {
                 window.location.href = "{% url 'pet_products:place_order' %}";
-            }, 2000); // Adjust the delay as needed
+            }, 2000); 
         }
 
         var placeOrderLink = document.getElementById("placeOrderLink");

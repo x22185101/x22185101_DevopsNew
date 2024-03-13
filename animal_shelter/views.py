@@ -21,7 +21,7 @@ def show(request, animal_shelter_id):
     except AnimalShelter.DoesNotExist:
         raise Http404("No Animals Listed for Adoption")
 
-    # Get the currently logged-in user
+    # To Get the currently logged-in user
     user = request.user
 
     context = {
@@ -32,10 +32,10 @@ def show(request, animal_shelter_id):
     return render(request, 'animal_shelter/show.html', context)
 
 def category(request, category):
-    # Filters the animals by the selected category
+    # To Filter the animals by the selected category
     animals_in_category = AnimalShelter.objects.filter(animal_type=category)
     
-    # for Counting the number of animals in the category
+    # For Counting the number of animals in the category
     animal_count = animals_in_category.count()
 
     context = {
