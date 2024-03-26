@@ -1,6 +1,108 @@
+<style>   
+ .modal {
+
+        display: none;
+
+        position: fixed;
+
+        z-index: 1;
+
+        left: 0;
+
+        top: 0;
+
+        width: 100%;
+
+        height: 100%;
+
+        overflow: auto;
+
+        background-color: rgba(0,0,0,0.4);
+
+        padding-top: 60px;
+
+    }
+ 
+    .modal-content {
+
+        background-color: #fefefe;
+
+        margin: 5% auto;
+
+        padding: 20px;
+
+        border: 1px solid #888;
+
+        width: 80%;
+
+    }
+ 
+    .close {
+
+        color: #aaa;
+
+        float: right;
+
+        font-size: 28px;
+
+        font-weight: bold;
+
+    }
+ 
+        .close:hover,
+
+        .close:focus {
+
+            color: black;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+        }
+ 
+</style>
 <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+   
+{{ form.first_name.label_tag }}
+
+{{ form.first_name }}
+
+<p class="error-message">{{ form.first_name.errors }}</p>
+ 
+{{ form.last_name.label_tag }}
+
+{{ form.last_name }}
+
+<p class="error-message">{{ form.last_name.errors }}</p>
+ 
+{{ form.username.label_tag }}
+
+{{ form.username }}
+
+<p class="error-message">{{ form.username.errors }}</p>
+ 
+<button type="button" class="generate-username-button" onclick="openModal()">Generate Random Username</button>
+ 
+{{ form.email.label_tag }}
+
+{{ form.email }}
+
+<p class="error-message">{{ form.email.errors }}</p>
+ 
+{{ form.password1.label_tag }}
+
+{{ form.password1 }}
+
+<p class="error-message">{{ form.password1.errors }}</p>
+ 
+{{ form.password2.label_tag }}
+
+{{ form.password2 }}
+
+<p class="error-message">{{ form.password2.errors }}</p>
+ 
 
     <div>
         <button type="submit" style="background-color: #4CAF50; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease-in-out;">Sign Up</button>
@@ -12,3 +114,109 @@
         If you have an account <a href="{% url 'sign_in' %}" style="color: #4CAF50; font-weight: bold;">Sign In</a>
     </div>
 </form>
+
+<!-- Modal -->
+
+<div id="myModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2>Generated Username</h2>
+
+        <p id="modal-username"></p>
+
+        <!-- Copy button -->
+
+        <button type="button" onclick="copyUsername()">Copy Username</button>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+function openModal() {
+
+    document.getElementById("myModal").style.display = "block";
+
+    var firstName = document.getElementById('id_first_name').value;
+
+    var lastName = document.getElementById('id_last_name').value;
+
+    console.log(firstName);
+
+    // Check if both first name and last name are provided
+
+    if (firstName.trim() === '' || lastName.trim() === '') {
+
+        alert('Please provide both first name and last name.');
+
+        return;
+
+    }
+
+    fetch('https://vi6vw30ana.execute-api.eu-west-1.amazonaws.com/dev', {
+
+        method: 'POST',
+
+        headers: {
+
+            'Content-Type': 'application/json'
+
+        },
+
+        body: JSON.stringify({
+
+            first_name: firstName,
+
+            last_name: lastName
+
+        })
+
+    })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            document.getElementById('modal-username').innerText = data.username;
+
+        })
+
+        .catch(error => {
+
+            console.error('Error:', error);
+
+            // Handle error
+
+            alert('Failed to generate username. Please try again later.');
+
+        });
+
+}
+
+function closeModal() {
+
+    document.getElementById("myModal").style.display = "none";
+
+}
+
+
+function copyUsername() {
+        var username = document.getElementById("modal-username").innerText;
+        navigator.clipboard.writeText(username)
+            .then(() => {
+                alert("Username copied to clipboard: " + username);
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('Failed to copy username to clipboard.');
+            });
+    }
+
+
+</script>

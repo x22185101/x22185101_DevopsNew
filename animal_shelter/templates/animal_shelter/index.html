@@ -124,6 +124,7 @@
         {% else %}
             <p>There are no animals recorded.</p>
         {% endif %}
+        
 
         <h2>Read our Adoption Policy</h2>
         <a href="{% url 'animal_shelter:adoption_policy' %}" class="cta-button">Read Me</a>
@@ -138,6 +139,9 @@
         {% else %}
             <p>Please <a href="{% url 'sign_in' %}" style="color: #4CAF50; font-weight: bold;">Sign In</a> to enter the details.</p>
         {% endif %}
+
+        <a href="{% url 'sign_out' %}">Sign out</a>
+        
     </div>
 </body>
 </html>
