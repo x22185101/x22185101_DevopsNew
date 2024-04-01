@@ -44,5 +44,8 @@
     <p>Please collect your products within 4 hours to 1 day.</p>
     
     <p><a href="{% url 'pet_products:pet_products' %}">Continue Shopping</a></p>
+
+    <!-- Add a link/button to download the invoice -->
+    <p><a href="{{ invoice_url }}" class="btn btn-primary" download>Download Invoice</a></p>
 </body>
 </html>

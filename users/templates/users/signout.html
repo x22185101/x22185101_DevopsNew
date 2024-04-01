@@ -3,5 +3,11 @@
 </div>
 
 <div>
-    <a href="{% url 'sign_in' %}" style="color: #4CAF50; font-weight: bold; text-decoration: none;">Sign In</a>
+    <button onclick="signOut()" style="color: #4CAF50; font-weight: bold; text-decoration: none; cursor: pointer;">Sign Out</button>
+    <script>
+        function signOut() {
+            // Perform sign-out action here, such as redirecting to the sign-in page
+            window.location.href = "{% url 'sign_in' %}";
+        }
+    </script>
 </div>
