@@ -1,13 +1,107 @@
-<div style="color: #333; font-family: 'Roboto', Arial, sans-serif;">
-    You have been signed out.
-</div>
-
-<div>
-    <button onclick="signOut()" style="color: #4CAF50; font-weight: bold; text-decoration: none; cursor: pointer;">Sign Out</button>
-    <script>
-        function signOut() {
-            // Perform sign-out action here, such as redirecting to the sign-in page
-            window.location.href = "{% url 'sign_in' %}";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Out</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #d1ffd1;
         }
-    </script>
-</div>
+
+        .header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .header h1 {
+            margin: 0; 
+        }
+
+        .right-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #000; 
+        }
+
+        .center-heading {
+            text-align: center; 
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin: 0 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .cta-button:hover {
+            background-color: #45a049;
+        }
+
+        .content-container {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+     
+        <h1 class="center-heading">You have been signed out</h1>
+    </div>
+
+    <div class="content-container">
+        <a href="{% url 'sign_in' %}" class="cta-button">Sign In</a>
+        <a href="{% url 'users:sign_up' %}" class="cta-button">Sign Up</a>
+    </div>
+</body>
+</html>

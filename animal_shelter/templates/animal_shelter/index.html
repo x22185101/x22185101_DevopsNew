@@ -101,7 +101,11 @@
     <div class="header">
         <div class="right-links">
             {% if user.is_authenticated %}
-                Hi {{ user.username }}! | <a href="{% url 'sign_out' %}" style="color: #fff;">Sign Out</a>
+                Hi {{ user.username }}! | 
+                <form method="post" action="{% url 'sign_out' %}">
+                    {% csrf_token %}
+                    <button type="submit" style="color: #fff; background: none; border: none; cursor: pointer;">Sign Out</button>
+                </form>
             {% else %}
                 <a href="{% url 'users:sign_up' %}" style="color: #fff;">Sign Up</a> |
                 If you already have an account <a href="{% url 'sign_in' %}" style="color: #fff;">Sign In</a>
@@ -139,9 +143,6 @@
         {% else %}
             <p>Please <a href="{% url 'sign_in' %}" style="color: #4CAF50; font-weight: bold;">Sign In</a> to enter the details.</p>
         {% endif %}
-
-        <a href="{% url 'sign_out' %}">Sign out</a>
-        
     </div>
 </body>
 </html>
