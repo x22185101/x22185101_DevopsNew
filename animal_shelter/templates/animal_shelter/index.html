@@ -143,6 +143,26 @@
         {% else %}
             <p>Please <a href="{% url 'sign_in' %}" style="color: #4CAF50; font-weight: bold;">Sign In</a> to enter the details.</p>
         {% endif %}
+
+        {% if user.is_staff %}
+            <!-- Show the "Generate Coupon" button only to staff/admin users -->
+            <form method="post" action="{% url 'pet_products:generate_coupon' %}">
+                {% csrf_token %}
+                <button type="submit" class="cta-button">Generate Coupon</button>
+            </form>
+            <!-- Display success message if coupon is generated successfully -->
+            {% if success_message %}
+                <p style="color: green;">{{ success_message }}</p>
+            {% endif %}
+        {% endif %}
+
+        {% if user.is_staff %}
+            <!-- Show the "See Coupons" button only to staff/admin users -->
+            <form method="get" action="{% url 'pet_products:coupon' %}">
+                <button type="submit" class="cta-button">See Coupons</button>
+            </form>
+        {% endif %}
+
     </div>
 </body>
 </html>
