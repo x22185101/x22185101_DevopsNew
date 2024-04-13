@@ -8,11 +8,17 @@ from .models import Adopter
 from .models import AdoptionPolicy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import requests
 
 
 def index(request):
+    random_dog_fact = get_random_dog_fact()
+
     list_of_animals = AnimalShelter.objects.order_by('-animal_type')[:15]
-    context = {'list_of_animals': list_of_animals}
+    context = {
+        'list_of_animals': list_of_animals,
+        'random_dog_fact': random_dog_fact,  # Pass the random dog fact to the template
+    }
     return render(request, 'animal_shelter/index.html', context)
 
 def show(request, animal_shelter_id):
@@ -118,6 +124,15 @@ def user_delete_animal(request, animal_shelter_id):
 
     context = {'animal': animal}
     return render(request, 'animal_shelter/delete.html', context)
+
+def get_random_dog_fact():
+    try:
+        response = requests.get('https://dog-api.kinduff.com/api/facts')
+        response.raise_for_status()  # Raise an exception for any HTTP errors
+        random_dog_fact = response.json()['facts'][0]
+        return random_dog_fact
+    except Exception as e:
+        return f"Error: {e}"
     
 
     
