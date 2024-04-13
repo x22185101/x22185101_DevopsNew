@@ -79,19 +79,19 @@
         }
 
         .cta-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
-    border: 2px solid black; /* Add a black border to the buttons */
-}
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+            border: 2px solid black; /* Add a black border to the buttons */
+        }
 
-.cta-button:hover {
-    background-color: #45a049;
-}
+        .cta-button:hover {
+            background-color: #45a049;
+        }
 
         .content-container {
             margin: 20px;
@@ -103,21 +103,51 @@
             margin-bottom: 20px; /* Add margin at the bottom for spacing */
         }
 
-        
         .button-wrapper {
-    position: fixed;
-    bottom: 270px;
-    right: 20px;
-    text-align: right; /* Align buttons to the right */
-}
+            position: fixed;
+            bottom: 270px;
+            right: 20px;
+            text-align: right; /* Align buttons to the right */
+        }
 
-.generate-coupon-wrapper {
-    margin-bottom: 5px; /* Add a small margin between the two button wrappers */
-}
+        .generate-coupon-wrapper {
+            margin-bottom: 5px; /* Add a small margin between the two button wrappers */
+        }
 
-.see-coupons-wrapper {
-    margin-top: 5px; /* Add a small margin between the two button wrappers */
-}
+        .see-coupons-wrapper {
+            margin-top: 5px; /* Add a small margin between the two button wrappers */
+        }
+
+        .coupon-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .messages {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .messages li {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #4CAF50;
+            background-color: #fff;
+        }
+
+        .messages.error li {
+            border-left-color: #F44336;
+        }
+
+        .messages.success li {
+            border-left-color: #4CAF50;
+        }
     </style>
 </head>
 <body>
@@ -143,6 +173,14 @@
     </div>
 
     <div class="content-container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         <h2 class="center-heading">List of animals up for adoption</h2>
         {% if list_of_animals %}
             <ul>
@@ -156,7 +194,6 @@
         {% else %}
             <p>There are no animals recorded.</p>
         {% endif %}
-        
 
         <h2>Read our Adoption Policy</h2>
         <a href="{% url 'animal_shelter:adoption_policy' %}" class="cta-button">Read Me</a>
@@ -172,32 +209,27 @@
             <p>Please <a href="{% url 'sign_in' %}" style="color: #4CAF50; font-weight: bold;">Sign In</a> to enter the details.</p>
         {% endif %}
 
-        {% if user.is_staff %}
-    <div class="button-wrapper">
-        <h2>Coupons</h2>
-        <!-- Show the "Generate Coupon" button only to staff/admin users -->
-        <div class="generate-coupon-wrapper">
-            <form method="post" action="{% url 'pet_products:generate_coupon' %}" class="generate-coupon-button">
-                {% csrf_token %}
-                <button type="submit" class="cta-button">Generate Coupon</button>
-            </form>
-            <!-- Display success message if coupon is generated successfully -->
-            {% if success_message %}
-                <p style="color: green;">{{ success_message }}</p>
+        {% if user.is_authenticated %}
+            {% if user.is_staff %}
+                <div class="button-wrapper">
+                    <h2>Coupons</h2>
+                    <!-- Show the "Generate Coupon" button only to staff/admin users -->
+                    <div class="generate-coupon-wrapper">
+                        <form method="post" action="{% url 'pet_products:generate_coupon' %}" class="generate-coupon-button">
+                            {% csrf_token %}
+                            <button type="submit" class="cta-button">Generate Coupon</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Show the "See Coupons" button only to staff/admin users -->
+                    <div class="see-coupons-wrapper">
+                        <form method="get" action="{% url 'pet_products:coupon' %}" class="see-coupons-button">
+                            <button type="submit" class="cta-button">See Coupons</button>
+                        </form>
+                    </div>
+                </div>
             {% endif %}
-        </div>
-        
-        <!-- Show the "See Coupons" button only to staff/admin users -->
-        <div class="see-coupons-wrapper">
-            <form method="get" action="{% url 'pet_products:coupon' %}" class="see-coupons-button">
-                <button type="submit" class="cta-button">See Coupons</button>
-            </form>
-        </div>
-    </div>
-{% endif %}
-
-
-        
+        {% endif %}
     </div>
 </body>
 </html>

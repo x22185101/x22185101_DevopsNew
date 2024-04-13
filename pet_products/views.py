@@ -66,42 +66,41 @@ def remove_from_cart(request, product_id):
     return redirect('pet_products:view_cart')
 @login_required
 def place_order(request):
-    print("Place Order View Reached")
     cart_items = CartItem.objects.filter(user=request.user)
     if cart_items:
+        # Assuming 'discount' is stored in session
+        discount = request.session.get('discount', 0)
+        
         order = Order.objects.create(user=request.user)
         order.items.set(cart_items)
  
         invoice_data = {}
         for item in cart_items:
-            # Convert decimal price to float
             invoice_data[item.product.name] = {
                 'price': float(item.product.price),
                 'quantity': item.quantity  # Include the quantity in the invoice data
             }
- 
+        
+        # Include discount in the payload
         payload = {
             'invoice_data': {
-                'customer': request.user.username,  # Assuming username is the customer identifier
-                'products': invoice_data
+                'customer': request.user.username,
+                'products': invoice_data,
+                'discount': discount  # Include discount in the payload
             }
         }
- 
+        
         headers = {'Content-Type': 'application/json'}
         try:
             response = requests.post(API_GATEWAY_ENDPOINT, json=payload, headers=headers)
             response.raise_for_status()
-            print("Response:", response.text)  # Print the response content for debugging
-            response_json = response.json()  # Parse JSON response
-            print("Response JSON:", response_json)  # Print the parsed JSON for debugging
- 
-            invoice_url = response_json.get('s3_url')  # Get the S3 URL from the response
+            
+            response_json = response.json()
+            invoice_url = response_json.get('s3_url')
+            
             if invoice_url:
-                print(f"Invoice Url: {invoice_url}")
                 messages.success(request, "Your order has been placed. Invoice saved.")
                 cart_items.delete()
-  
-                # Pass invoice_url to order_confirmation view
                 return redirect(reverse('pet_products:order_confirmation') + f'?invoice_url={invoice_url}')
             else:
                 messages.error(request, "Failed to retrieve invoice URL.")
@@ -109,12 +108,10 @@ def place_order(request):
             messages.error(request, f"Failed to place order: {e}")
  
         cart_items.delete()
- 
-        print("Redirecting to pet_products")
         return redirect('pet_products:pet_products')
- 
-    print("Redirecting to pet_products")
+    
     return redirect('pet_products:pet_products')
+
 
 def view_cart(request):
     cart_items = CartItem.objects.filter(user=request.user)
@@ -141,11 +138,15 @@ def generate_coupon(request):
         response = requests.post(COUPON_API, json={'operation': 'create_coupon_code'})
         response.raise_for_status()
         data = response.json()
-        print(data)
-        messages.success(request, "Coupon generated successfully!")  # Add success message
-        return redirect('animal_shelter:index')  # Redirect to home page after generating coupon
+        coupon_code = data.get('message', '')
+        if coupon_code:
+            messages.success(request, f'{coupon_code}!')
+        else:
+            messages.error(request, 'Failed to generate coupon.') 
+        return redirect('animal_shelter:index')  # Redirect to the index page after generating the coupon
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        messages.error(request, f'Error generating coupon: {str(e)}')
+        return redirect('animal_shelter:index')  # Redirect to the index page if there's an error
 
 def apply_coupon(request):
     if request.method == "POST":
@@ -156,8 +157,6 @@ def apply_coupon(request):
                 return JsonResponse({"success": False, "message": "Coupon code is required."})
             
             order_total = calculate_order_total(request.user)
-            print("Coupon code:", coupon_code)  # Print coupon code
-            print("Order total:", order_total)  # Print order total
             
             try:
                 response = requests.post(
@@ -165,30 +164,26 @@ def apply_coupon(request):
                     json={"operation": "validate_coupon","coupon_code": coupon_code, "order_total": order_total},
                     headers={'Content-Type': 'application/json'}
                 )
-                print("Response:", response.text)  # Print response content
-                print("Response:", response.status_code)  # Print response content
                 data = response.json()
                 if response.status_code == 200:
                     discount = data.get("discount")
                     new_total = data.get("new_total")
                     
-                    # Ensure discount and new_total are properly serialized
-                    discount = Decimal(discount)
-                    new_total = Decimal(new_total)
+                    # Storing discount in session
+                    request.session['discount'] = discount
+                    request.session.modified = True
                     
                     return JsonResponse(
-                        {"success": True, "discount": discount, "new_total": new_total},
-                        encoder=DecimalEncoder  # Use custom JSON encoder
+                        {"success": True, "discount": discount, "new_total": new_total}
                     )
                 else:
                     return JsonResponse({"success": False, "message": data.get("message")})
             except Exception as e:
-                print("Exception:", e)  # Print exception
                 return JsonResponse({"success": False, "message": str(e)})
         except Exception as e:
-            print("Exception:", e)  # Print exception
             return JsonResponse({"success": False, "message": str(e)})
     return JsonResponse({"success": False, "message": "Invalid request method."})
+
 
 def calculate_order_total(user):
     cart_items = CartItem.objects.filter(user=user)
