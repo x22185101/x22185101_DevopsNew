@@ -13,7 +13,7 @@ def sign_up(request):
             un = form.cleaned_data.get('username')
             messages.success(request,
                 'Account has been successfully created for {}!'.format(un))
-            return redirect('users:sign_in')  # Redirect to sign-in page after sign-up
+            return redirect('animal_shelter:index')  # Redirect to sign-in page after sign-up
     elif request.method == "GET":
         form = UserSignUpForm()
     return render(request, 'users/signup.html', {'form': form})
