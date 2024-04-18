@@ -1,18 +1,88 @@
 {% extends "animal_shelter/base_generic.html" %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #d1ffd1;
+        }
 
-        <div>
-            <button type="submit" style="background-color: #4CAF50; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease-in-out;">Sign In</button>
-        </div>
+        .content-container {
+            margin: 20px auto;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: calc(100% - 1in); /* Adjusted width */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .cta-button:hover {
+            background-color: #45a049;
+        }
+
+        .cta-link {
+            color: #4CAF50;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .cta-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="content-container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="cta-button">Sign In</button>
+            </div>
+        </form>
 
         <p></p>
 
-        <div>
-            If you don't have an account yet <a href="{% url 'users:sign_up' %}" style="color: #4CAF50; font-weight: bold;">Sign Up</a>
+        <div class="form-group">
+            If you don't have an account yet <a href="{% url 'users:sign_up' %}" class="cta-link">Sign Up</a>
         </div>
-    </form>
+    </div>
 {% endblock content %}

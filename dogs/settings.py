@@ -29,7 +29,7 @@ SECRET_KEY = secretkey
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','22185101-scpapi-env.eba-ysd6uuzy.us-east-1.elasticbeanstalk.com', 'x22185101-cdos-app-env.eba-phserbpr.eu-west-2.elasticbeanstalk.com','22185101-scp-env.eba-e2iq4bj4.us-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['127.0.0.1','22185101-scpapi-env.eba-ysd6uuzy.us-east-1.elasticbeanstalk.com', 'x22185101-cdos-app-env.eba-phserbpr.eu-west-2.elasticbeanstalk.com','22185101-scalableapi-env.eba-epmuwfhn.us-east-1.elasticbeanstalk.com']
 
 
 

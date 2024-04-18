@@ -16,12 +16,8 @@ def generate_invoice_pdf(data):
     pdf.set_fill_color(255, 255, 255)  # Set fill color to white
     pdf.set_text_color(0, 0, 0)  # Set text color to black
     pdf.cell(0, 10, txt=f"Customer: {data['customer']}", ln=True)
-    pdf.cell(0, 10, txt=f"Amount: {data['amount']}", ln=True)
-    pdf.ln(10)  # Add a line break
-    # Add dotted line
-    pdf.set_draw_color(0, 0, 0)  # Set draw (line) color to black
-    pdf.set_line_width(0.5)  # Set line width
-    pdf.dashed_line(10, pdf.get_y(), 200, pdf.get_y(), 1, 5)  # Draw dotted line
+    
+    
     # Add invoice details
     pdf.cell(0, 10, txt="Invoice Details:", ln=True)
     pdf.cell(50, 10, txt="Product", border=1)  # Add a border to the cell
@@ -36,8 +32,20 @@ def generate_invoice_pdf(data):
         pdf.cell(40, 10, txt=str(quantity), border=1)  # Quantity column
         pdf.cell(50, 10, txt=str(price), border=1)  # Price column
         pdf.cell(60, 10, txt=str(total_price), border=1, ln=True)  # Total price column
+    pdf.ln(10)  # Add a line break
+    pdf.cell(0, 10, txt=f"Amount: {data['amount']}", ln=True)
+    
+    # Check if discount is applicable
+    if 'discount' in data:
+        discount = data['discount']
+        updated_total = data['amount'] - discount
+        pdf.cell(0, 10, txt=f"Discount: {discount}", ln=True)  # Add discount
+        pdf.cell(0, 10, txt=f"Total: {updated_total}", ln=True)  # Add updated total
+    
+    pdf.ln(10)  # Add a line break
     pdf_output = "/tmp/invoice.pdf"
     pdf.output(pdf_output)
+    print("Invoice PDF generated.")
     return pdf_output
  
 def upload_to_s3(pdf_file_path, s3_bucket, s3_key):
@@ -53,23 +61,25 @@ def upload_to_s3(pdf_file_path, s3_bucket, s3_key):
 def lambda_handler(event, context):
     print("Lambda function starting...")
     s3_bucket = '22185101-pdf-upload'
-    print("event:", event)
-    # Parse the body of the event as JSON
+    print("Received event:", json.dumps(event))
+    
     body = json.loads(event['body'])
- 
-    # Access the 'invoice_data' key from the parsed body
     invoice_data = body['invoice_data']
     products = invoice_data['products']
     customer = invoice_data['customer']
- 
-    # Include quantity in invoice data
+    discount = invoice_data.get('discount', 0)  # Retrieve discount from the payload
+    print("Discount received:", discount)
+    
+    # Include discount in the invoice data
     invoice_data_with_quantity = {
         "customer": customer,
         "amount": sum(details['price'] * details['quantity'] for details in products.values()),
+        "discount": discount,  # Include discount in the invoice data
         "products": {product: {"quantity": details['quantity'], "price": details['price']} for product, details in products.items()}
     }
  
     pdf_file_path = generate_invoice_pdf(invoice_data_with_quantity)
+    print("Invoice PDF generated:", pdf_file_path)
  
     s3_key = f"invoices/{customer}_invoice.pdf"
     s3_url = upload_to_s3(pdf_file_path, s3_bucket, s3_key)
@@ -84,5 +94,5 @@ def lambda_handler(event, context):
         'headers': {
             'Content-Type': 'application/json',
         },
-        'body': json.dumps({'s3_url': s3_url})
+        'body': json.dumps({'s3_url': s3_url, 'discount': discount})  # Pass discount in the response
     }

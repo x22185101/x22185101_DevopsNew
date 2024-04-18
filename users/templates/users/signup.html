@@ -24,14 +24,6 @@
             margin: 0; 
         }
 
-        .right-links {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 16px;
-            color: #fff;
-        }
-
         h1, h2, h3, h4, h5, h6 {
             color: #000; 
         }
@@ -71,6 +63,8 @@
         p {
             font-size: 16px;
             color: #555;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
         .cta-button {
@@ -82,6 +76,8 @@
             border-radius: 5px;
             transition: background-color 0.3s ease-in-out;
             margin-right: 10px;
+            border: none;
+            cursor: pointer;
         }
 
         .cta-button:hover {
@@ -97,7 +93,9 @@
             text-decoration: none;
             border-radius: 5px;
             transition: background-color 0.3s ease-in-out;
-            margin-right: 10px;
+            margin-left: 10px;
+            border: none;
+            cursor: pointer;
         }
 
         .generate-username-button:hover {
@@ -106,7 +104,12 @@
         }
 
         .content-container {
-            margin: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         /* Modal styles */
@@ -130,6 +133,8 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .close {
@@ -137,13 +142,13 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -156,34 +161,34 @@
         <form method="POST">
             {% csrf_token %}
             <div>
-                {{ form.first_name.label_tag }}
-                {{ form.first_name }}
+                <p>{{ form.first_name.label_tag }}</p>
+                <p>{{ form.first_name }}</p>
                 <p class="error-message">{{ form.first_name.errors }}</p>
             </div>
             <div>
-                {{ form.last_name.label_tag }}
-                {{ form.last_name }}
+                <p>{{ form.last_name.label_tag }}</p>
+                <p>{{ form.last_name }}</p>
                 <p class="error-message">{{ form.last_name.errors }}</p>
             </div>
             <div>
-                {{ form.username.label_tag }}
-                {{ form.username }}
+                <p>{{ form.username.label_tag }}</p>
+                <p style="display: inline-block;">{{ form.username }}</p>
                 <button type="button" class="generate-username-button" onclick="openModal()">Generate Random Username</button>
                 <p class="error-message">{{ form.username.errors }}</p>
             </div>
             <div>
-                {{ form.email.label_tag }}
-                {{ form.email }}
+                <p>{{ form.email.label_tag }}</p>
+                <p>{{ form.email }}</p>
                 <p class="error-message">{{ form.email.errors }}</p>
             </div>
             <div>
-                {{ form.password1.label_tag }}
-                {{ form.password1 }}
+                <p>{{ form.password1.label_tag }}</p>
+                <p>{{ form.password1 }}</p>
                 <p class="error-message">{{ form.password1.errors }}</p>
             </div>
             <div>
-                {{ form.password2.label_tag }}
-                {{ form.password2 }}
+                <p>{{ form.password2.label_tag }}</p>
+                <p>{{ form.password2 }}</p>
                 <p class="error-message">{{ form.password2.errors }}</p>
             </div>
             <div>
