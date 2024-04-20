@@ -1,7 +1,7 @@
 from django.db import models
 
 class AnimalShelter(models.Model):
-    # I have Defined choices for the 'animal_type' field
+    
     ANIMAL_TYPE_CHOICES = (
         ('Cat', 'Cat'),
         ('Bird', 'Bird'),

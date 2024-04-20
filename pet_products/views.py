@@ -68,7 +68,7 @@ def remove_from_cart(request, product_id):
 def place_order(request):
     cart_items = CartItem.objects.filter(user=request.user)
     if cart_items:
-        # Assuming 'discount' is stored in session
+        
         discount = request.session.get('discount', 0)
         
         order = Order.objects.create(user=request.user)
@@ -78,15 +78,15 @@ def place_order(request):
         for item in cart_items:
             invoice_data[item.product.name] = {
                 'price': float(item.product.price),
-                'quantity': item.quantity  # Include the quantity in the invoice data
+                'quantity': item.quantity  
             }
         
-        # Include discount in the payload
+        
         payload = {
             'invoice_data': {
                 'customer': request.user.username,
                 'products': invoice_data,
-                'discount': discount  # Include discount in the payload
+                'discount': discount  
             }
         }
         
@@ -143,10 +143,10 @@ def generate_coupon(request):
             messages.success(request, f'{coupon_code}!')
         else:
             messages.error(request, 'Failed to generate coupon.') 
-        return redirect('animal_shelter:index')  # Redirect to the index page after generating the coupon
+        return redirect('animal_shelter:index')  
     except Exception as e:
         messages.error(request, f'Error generating coupon: {str(e)}')
-        return redirect('animal_shelter:index')  # Redirect to the index page if there's an error
+        return redirect('animal_shelter:index')
 
 def apply_coupon(request):
     if request.method == "POST":
@@ -169,7 +169,7 @@ def apply_coupon(request):
                     discount = data.get("discount")
                     new_total = data.get("new_total")
                     
-                    # Storing discount in session
+                   
                     request.session['discount'] = discount
                     request.session.modified = True
                     
